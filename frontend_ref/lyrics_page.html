@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Song Detail Screen</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#1152d4",
+              "background-light": "#f6f6f8",
+              "background-dark": "#101622",
+            },
+            fontFamily: {
+              "display": ["Lexend", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>.no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }.pb-safe {
+            padding-bottom: env(safe-area-inset-bottom, 20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-white antialiased selection:bg-primary/20 flex flex-col h-screen overflow-hidden">
+<header class="sticky top-0 z-50 flex items-center justify-between bg-white/95 dark:bg-[#101622]/95 backdrop-blur-md px-4 py-3 border-b border-slate-200/60 dark:border-slate-800 transition-colors shrink-0 h-[60px]">
+<button class="group flex items-center justify-center w-10 h-10 rounded-full active:bg-slate-100 dark:active:bg-slate-800 text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary/30">
+<span class="material-symbols-outlined text-[24px] font-medium group-active:-translate-x-0.5 transition-transform">arrow_back_ios_new</span>
+</button>
+<h2 class="flex-1 text-center text-slate-800 dark:text-slate-100 text-[17px] font-semibold tracking-tight truncate px-4">
+            Gwjwng Sorkhwo...
+        </h2>
+<button class="group flex items-center justify-center w-10 h-10 rounded-full active:bg-red-50 dark:active:bg-red-900/20 text-slate-400 dark:text-slate-500 hover:text-red-500 dark:hover:text-red-400 transition-colors focus:outline-none">
+<span class="material-symbols-outlined text-[26px] group-active:scale-90 transition-transform">favorite_border</span>
+</button>
+</header>
+<main class="flex-1 overflow-y-auto no-scrollbar w-full max-w-lg mx-auto px-6 pt-6 pb-32">
+<div class="mb-8 animate-fade-in-up">
+<h1 class="text-[#111318] dark:text-white tracking-tight text-[28px] md:text-[32px] font-bold leading-[1.2] mb-3 text-left">
+                Gwjwng Sorkhwo (Bright Heaven)
+            </h1>
+<div class="flex flex-wrap items-center gap-3">
+<span class="inline-flex items-center px-2.5 py-1 rounded-md bg-slate-200/50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-semibold uppercase tracking-wide">
+                    Hymn #42
+                </span>
+<span class="inline-flex items-center gap-1 text-[#616f89] dark:text-slate-400 text-sm font-medium">
+<span class="material-symbols-outlined text-[16px]">music_note</span>
+                    Key: G
+                </span>
+</div>
+</div>
+<div class="space-y-10 text-[18px] md:text-[20px] text-[#1f2937] dark:text-[#e2e8f0] leading-[1.8]">
+<section class="relative">
+<span class="absolute -left-0 -top-6 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest select-none">1</span>
+<p>
+                    Gwjwng sorkhwo, angni nogo,<br/>
+                    Jwhwlao Jisu, angni raja;<br/>
+                    Biyo angkhwo, mwnjabgwwn,<br/>
+                    Sorkhwo angni, angni nogo.
+                </p>
+</section>
+<section class="relative pl-6 border-l-[3px] border-primary/40 dark:border-primary/60 py-1 bg-gradient-to-r from-primary/5 to-transparent rounded-r-lg -ml-2 pr-2">
+<span class="absolute -left-[3px] -top-6 text-xs font-bold text-primary uppercase tracking-widest select-none pl-1">Chorus</span>
+<p class="font-medium text-[#111318] dark:text-white italic">
+                    Angni nogo, sorkhwo nogo,<br/>
+                    Jisu raja, angni raja;<br/>
+                    Angni nogo, sorkhwo nogo,<br/>
+                    Jisu raja, angni raja.
+                </p>
+</section>
+<section class="relative">
+<span class="absolute -left-0 -top-6 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest select-none">2</span>
+<p>
+                    Duniayao, dukhuni bwrai,<br/>
+                    Jisua angkhwo, gwjwng hwnw;<br/>
+                    Biyo angkhwo, mwnjabgwwn,<br/>
+                    Sorkhwo angni, angni nogo.
+                </p>
+</section>
+<section class="relative">
+<span class="absolute -left-0 -top-6 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest select-none">3</span>
+<p>
+                    Angni jibwn, Jisu ni,<br/>
+                    Bini onnai, jwbwni gwiya;<br/>
+                    Sorkhwo angni, gwjwng nogo,<br/>
+                    Jisu raja, angni raja.
+                </p>
+</section>
+<section class="relative">
+<span class="absolute -left-0 -top-6 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest select-none">4</span>
+<p>
+                    Mwgthang Jisu, angni gwswo,<br/>
+                    Nwngkhwo onnw, ang haastayw;<br/>
+                    Sorkhwo angni, gwjwng nogo,<br/>
+                    Jisu raja, angni raja.
+                </p>
+</section>
+<div class="h-8 text-center">
+<span class="material-symbols-outlined text-slate-300 dark:text-slate-700">more_horiz</span>
+</div>
+</div>
+</main>
+<nav class="fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-[#101622]/95 backdrop-blur-md border-t border-slate-200/60 dark:border-slate-800 pb-safe">
+<div class="flex items-center justify-around h-[65px] px-2">
+<button class="group flex flex-col items-center justify-center w-20 h-full text-slate-400 dark:text-slate-500 hover:text-primary dark:hover:text-primary active:text-primary transition-colors focus:outline-none">
+<span class="material-symbols-outlined text-[26px] mb-1 group-active:scale-95 transition-transform">home</span>
+<span class="text-[10px] font-medium tracking-wide">Home</span>
+</button>
+<button class="group flex flex-col items-center justify-center w-20 h-full text-slate-400 dark:text-slate-500 hover:text-primary dark:hover:text-primary active:text-primary transition-colors focus:outline-none">
+<span class="material-symbols-outlined text-[26px] mb-1 group-active:scale-95 transition-transform">favorite</span>
+<span class="text-[10px] font-medium tracking-wide">Favorites</span>
+</button>
+</div>
+</nav>
+
+</body></html>
