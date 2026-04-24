@@ -44,8 +44,10 @@ class FavoritesController extends GetxController {
     }
   }
 
-  void navigateToSongDetail(int songId) {
-    Get.toNamed(AppRoutes.songDetail, arguments: songId);
+  Future<void> navigateToSongDetail(int songId) async {
+    await Get.toNamed(AppRoutes.songDetail, arguments: songId);
+    // Reload favorites when returning to ensure the list is fresh
+    loadFavoriteSongs(forceReload: true);
   }
 
   Future<void> toggleFavorite(Song song) async {

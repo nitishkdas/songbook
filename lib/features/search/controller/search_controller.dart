@@ -27,18 +27,32 @@ class SearchController extends GetxController {
     try {
       isLoading.value = true;
       final results = await _dbHelper.searchSongs(query);
-      searchResults.value = results;
+      if (searchQuery.value == query) {
+        searchResults.value = results;
+      }
     } catch (e) {
-      hasError.value = true;
-      errorMessage.value = 'Search failed: $e';
-      Get.snackbar('Error', errorMessage.value);
+      if (searchQuery.value == query) {
+        hasError.value = true;
+        errorMessage.value = 'Search failed: $e';
+        Get.snackbar('Error', errorMessage.value);
+      }
     } finally {
-      isLoading.value = false;
+      if (searchQuery.value == query) {
+        isLoading.value = false;
+      }
     }
   }
 
-  void navigateToSongDetail(int songId) {
-    Get.toNamed(AppRoutes.songDetail, arguments: songId);
+  Future<void> navigateToSongDetail(int songId) async {
+    await Get.toNamed(AppRoutes.songDetail, arguments: songId);
+    // Refresh the song from database so any changes to favorites reflect when back
+    final updatedSong = await _dbHelper.getSongById(songId);
+    if (updatedSong != null) {
+      final index = searchResults.indexWhere((s) => s.id == songId);
+      if (index != -1) {
+        searchResults[index] = updatedSong;
+      }
+    }
   }
 
   Future<void> toggleFavorite(Song song) async {
