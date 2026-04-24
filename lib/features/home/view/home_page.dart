@@ -114,15 +114,57 @@ class HomePage extends StatelessWidget {
                 }
 
                 return ListView.builder(
-                  padding: const EdgeInsets.only(top: 16),
+                  controller: controller.scrollController,
+                  padding: const EdgeInsets.only(top: 8),
                   itemCount: controller.filteredSongs.length,
                   itemBuilder: (context, index) {
                     final song = controller.filteredSongs[index];
-                    return SongCard(
+
+                    // Determine if we need a section header
+                    bool isNewSection = false;
+                    if (controller.selectedChar.value == 'All' && controller.searchQuery.value.isEmpty) {
+                      if (index == 0) {
+                        isNewSection = true;
+                      } else {
+                        final previousSong = controller.filteredSongs[index - 1];
+                        if (song.char != previousSong.char) {
+                          isNewSection = true;
+                        }
+                      }
+                    }
+
+                    Widget content = SongCard(
                       song: song,
                       onTap: () => controller.navigateToSongDetail(song.id),
                       onFavoriteTap: () => controller.toggleFavorite(song),
                     );
+
+                    if (isNewSection) {
+                      final charText = (song.char.trim() == '') ? '#' : song.char.toUpperCase();
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: 24, 
+                              top: index == 0 ? 0 : 16, 
+                              bottom: 8
+                            ),
+                            child: Text(
+                              charText,
+                              style: AppTextStyles.bodySmall(context).copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: isDark ? AppColors.textSubDark.withValues(alpha: 0.5) : AppColors.gray400,
+                              ),
+                            ),
+                          ),
+                          content,
+                        ],
+                      );
+                    }
+
+                    return content;
                   },
                 );
               }),

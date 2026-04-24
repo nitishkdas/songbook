@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/models/song.dart';
 import '../../../core/services/db_helper.dart';
@@ -17,6 +17,8 @@ class HomeController extends GetxController {
   final searchQuery = ''.obs;
   final allChars = <String>[].obs;
 
+  final ScrollController scrollController = ScrollController();
+
   @override
   void onInit() {
     super.onInit();
@@ -27,6 +29,12 @@ class HomeController extends GetxController {
     if (allChars.isEmpty) {
       loadChars();
     }
+  }
+
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
   }
 
   Future<void> loadSongs({bool forceReload = false}) async {
@@ -73,6 +81,16 @@ class HomeController extends GetxController {
     }
   }
 
+  void _scrollToTop() {
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        0.0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
+  }
+
   void filterByChar(String char) {
     selectedChar.value = char;
     if (char == 'All') {
@@ -81,38 +99,63 @@ class HomeController extends GetxController {
       final filtered = songs.where((song) => song.char.toLowerCase() == char.toLowerCase()).toList();
       filteredSongs.value = filtered;
     }
+    _scrollToTop();
   }
 
   void search(String query) {
     searchQuery.value = query;
-    if (query.isEmpty) {
+    final cleanQuery = query.trim();
+    if (cleanQuery.isEmpty) {
       filterByChar(selectedChar.value);
       return;
     }
 
     // Check if query is a number (for ID search)
-    final isNumeric = int.tryParse(query.trim()) != null;
-    final queryLower = query.toLowerCase();
+    final isNumeric = int.tryParse(cleanQuery) != null;
+    final queryLower = cleanQuery.toLowerCase();
+    final words = queryLower.split(RegExp(r'\s+'));
 
     final results = songs.where((song) {
       // Search by ID if query is numeric
       if (isNumeric) {
-        final id = int.tryParse(query.trim());
+        final id = int.tryParse(cleanQuery);
         if (song.id == id) {
           return true;
         }
       }
-      // Search in title and lyrics
-      final titleMatch = song.songTitle.toLowerCase().contains(queryLower);
-      final lyricMatch = song.lyric.toLowerCase().contains(queryLower);
-      return titleMatch || lyricMatch;
+      
+      final titleLower = song.songTitle.toLowerCase();
+      
+      // All keywords must match the title
+      for (final word in words) {
+        if (!titleLower.contains(word)) {
+          return false;
+        }
+      }
+      return true;
     }).toList();
 
     filteredSongs.value = results;
+    _scrollToTop();
   }
 
-  void navigateToSongDetail(int songId) {
-    Get.toNamed(AppRoutes.songDetail, arguments: songId);
+  Future<void> navigateToSongDetail(int songId) async {
+    await Get.toNamed(AppRoutes.songDetail, arguments: songId);
+    
+    // Refresh the song state in case favorites changed
+    final updatedSong = await _dbHelper.getSongById(songId);
+    if (updatedSong != null) {
+      final index = songs.indexWhere((s) => s.id == songId);
+      if (index != -1) {
+        songs[index] = updatedSong;
+        // Re-apply filters or search to update the UI
+        if (searchQuery.value.isNotEmpty) {
+          search(searchQuery.value);
+        } else {
+          filterByChar(selectedChar.value);
+        }
+      }
+    }
   }
 
   void navigateToFavorites() {

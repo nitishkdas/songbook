@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
+
 import '../../app/theme/app_colors.dart';
 import '../../app/theme/app_text_styles.dart';
 import '../../core/models/song.dart';
@@ -62,12 +62,16 @@ class BaseSongCard extends StatelessWidget {
                     : (isDark ? AppColors.gray800 : AppColors.gray100),
                 borderRadius: BorderRadius.circular(AppConstants.borderRadiusMedium),
               ),
-              child: Icon(
-                Symbols.music_note,
-                color: song.favorite
-                    ? AppColors.primary
-                    : (isDark ? AppColors.gray500 : AppColors.gray500),
-                size: AppConstants.iconSizeMedium,
+              child: Center(
+                child: Text(
+                  '${song.id}',
+                  style: AppTextStyles.bodyMedium(context).copyWith(
+                    color: song.favorite
+                        ? AppColors.primary
+                        : (isDark ? AppColors.textSubDark : AppColors.textMainLight),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
             const SizedBox(width: AppConstants.spacingLG),
