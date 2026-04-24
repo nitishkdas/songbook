@@ -77,7 +77,7 @@ class DbHelper {
       final db = await database;
       final result = await db.query(
         'bodosong',
-        orderBy: 'song_title ASC',
+        orderBy: 'char ASC, song_title ASC',
       );
       debugPrint('[DbHelper] Found ${result.length} songs');
       
@@ -129,26 +129,38 @@ class DbHelper {
   // Search songs
   Future<List<Song>> searchSongs(String query) async {
     final db = await database;
+    final cleanQuery = query.trim();
     
+    if (cleanQuery.isEmpty) return [];
+
     // Check if query is a number (for ID search)
-    final isNumeric = int.tryParse(query.trim()) != null;
+    final isNumeric = int.tryParse(cleanQuery) != null;
     
     if (isNumeric) {
       // Search by ID, title, and lyrics
-      final id = int.tryParse(query.trim());
+      final id = int.tryParse(cleanQuery);
       final result = await db.query(
         'bodosong',
         where: 'id = ? OR song_title LIKE ? OR lyric LIKE ?',
-        whereArgs: [id, '%$query%', '%$query%'],
+        whereArgs: [id, '%$cleanQuery%', '%$cleanQuery%'],
         orderBy: 'song_title ASC',
       );
       return result.map((map) => Song.fromMap(map)).toList();
     } else {
-      // Search only in title and lyrics
+      // Search only in title and lyrics using keywords
+      final words = cleanQuery.split(RegExp(r'\s+'));
+      final whereClauses = <String>[];
+      final whereArgs = <dynamic>[];
+
+      for (final word in words) {
+        whereClauses.add('song_title LIKE ?');
+        whereArgs.add('%$word%');
+      }
+
       final result = await db.query(
         'bodosong',
-        where: 'song_title LIKE ? OR lyric LIKE ?',
-        whereArgs: ['%$query%', '%$query%'],
+        where: whereClauses.join(' AND '),
+        whereArgs: whereArgs,
         orderBy: 'song_title ASC',
       );
       return result.map((map) => Song.fromMap(map)).toList();

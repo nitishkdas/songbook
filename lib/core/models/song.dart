@@ -49,7 +49,7 @@ class Song {
     return Song(
       id: toInt(map['id']) ?? 0,
       char: map['char']?.toString() ?? '',
-      songTitle: map['song_title']?.toString() ?? '',
+      songTitle: map['song_title']?.toString().replaceAll(RegExp(r"^['\s]+"), '') ?? '',
       lyric: map['lyric']?.toString() ?? '',
       suggestIntentDataId: toInt(map['suggest_intent_data_id']),
       favorite: toBool(map['favorite']),
