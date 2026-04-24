@@ -31,7 +31,7 @@ class SearchBarWidget extends StatelessWidget {
           color: isDark ? AppColors.white : AppColors.textMainLight,
         ),
         decoration: InputDecoration(
-          hintText: 'Search title or lyrics...',
+          hintText: 'Search by title or song number...',
           hintStyle: AppTextStyles.bodyMedium(context).copyWith(
             color: isDark ? AppColors.textSubDark : AppColors.gray400,
           ),
